@@ -38,6 +38,7 @@ class Application(models.Model):
         verbose_name = _('Application')
         verbose_name_plural = _('Applications')
 
+
 @receiver(post_save, sender='core.Application', dispatch_uid="post_app_save")
 def post_app_save(sender, instance, created, **kwargs):
     if created:
