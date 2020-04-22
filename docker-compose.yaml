@@ -23,7 +23,7 @@ services:
 
   project:
     container_name: djtest_project
-    image: crm_prod_project
+    image: djtest_project
     build: .
     env_file:
       - .env
