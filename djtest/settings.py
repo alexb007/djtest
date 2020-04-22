@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-from django.conf import settings
+import environ
+root = environ.Path(__file__) - 3
+environ.Env.read_env(root('.env'))
+ENVIRON = environ.Env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'f4bv)!nc-q&!lr@w@#9j$-m^1imch$-r!xq3%7*=8f&&_g(_5&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = ENVIRON.bool('DEBUG', default=False)
 
 ALLOWED_HOSTS = []
 
@@ -77,11 +80,11 @@ WSGI_APPLICATION = 'djtest.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': settings.ENVIRON.str('POSTGRES_DB', default='crm'),
-        'USER': settings.ENVIRON.str('POSTGRES_USER', default=''),
-        'PASSWORD': settings.ENVIRON.str('POSTGRES_PASSWORD', default=''),
-        'HOST': settings.ENVIRON.str('POSTGRES_HOST', default=''),
-        'PORT': settings.ENVIRON.str('POSTGRES_PORT', default=''),
+        'NAME': ENVIRON.str('POSTGRES_DB', default='crm'),
+        'USER': ENVIRON.str('POSTGRES_USER', default=''),
+        'PASSWORD': ENVIRON.str('POSTGRES_PASSWORD', default=''),
+        'HOST': ENVIRON.str('POSTGRES_HOST', default=''),
+        'PORT': ENVIRON.str('POSTGRES_PORT', default=''),
     }
 }
 
