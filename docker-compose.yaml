@@ -1,0 +1,45 @@
+version: '2'
+services:
+  nginx:
+    restart: on-failure
+    build:
+      context: ./nginx
+      dockerfile: ./Dockerfile
+    volumes:
+      - /static:/app/djtest/static
+      - /media:/app/djtest/media
+    ports:
+      - 9090:80
+    depends_on:
+      - project
+
+  postgresql:
+    container_name: djtest_postgresql
+    image: postgres:11-alpine
+    env_file:
+      - .env
+    volumes:
+      - pgdata:/var/lib/postgresql
+
+  project:
+    container_name: djtest_project
+    image: crm_prod_project
+    build: .
+    env_file:
+      - .env
+    command: 'python -Wd manage.py runserver 0.0.0.0:8000'
+    volumes:
+      - ./:/apps/djtest
+      - /static:/apps/djtest/static
+      - /media:/apps/djtest/media
+    links:
+      - postgresql
+    depends_on:
+      - postgresql
+    ports:
+      - 8000
+
+
+volumes:
+  pgdata:
+

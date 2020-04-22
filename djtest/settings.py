@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from django.conf import settings
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -75,8 +76,12 @@ WSGI_APPLICATION = 'djtest.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': settings.ENVIRON.str('POSTGRES_DB', default='crm'),
+        'USER': settings.ENVIRON.str('POSTGRES_USER', default=''),
+        'PASSWORD': settings.ENVIRON.str('POSTGRES_PASSWORD', default=''),
+        'HOST': settings.ENVIRON.str('POSTGRES_HOST', default=''),
+        'PORT': settings.ENVIRON.str('POSTGRES_PORT', default=''),
     }
 }
 
