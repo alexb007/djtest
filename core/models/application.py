@@ -11,6 +11,7 @@ class Application(models.Model):
     )
     api_key = models.CharField(
         max_length=256,
+        unique=True,
         verbose_name=_('API Key')
     )
     is_active = models.BooleanField(
@@ -37,6 +38,7 @@ class Application(models.Model):
     class Meta:
         verbose_name = _('Application')
         verbose_name_plural = _('Applications')
+        unique_together = ('name', 'api_key')
 
 
 @receiver(post_save, sender='core.Application', dispatch_uid="post_app_save")
