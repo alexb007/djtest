@@ -14,7 +14,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && pip install --upgrade pip
 
 WORKDIR /apps/djtest
-COPY ./requirements/ requirements/
 COPY ./scripts/docker/ /scripts/
 COPY . .
 
